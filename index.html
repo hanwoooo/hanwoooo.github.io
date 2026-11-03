@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>한우혁 | Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#ffffff; --surface:#f7f8fa; --text:#14171f; --muted:#4a5263; --line:#e3e6ec;
+  --accent:#0f766e; --accent-soft:#e6f4f2; --todo-bg:#fff4d6; --todo-text:#8a5a00;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Pretendard Variable",Pretendard,system-ui,sans-serif;line-height:1.7;font-size:16px;font-weight:450;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.mono{font-family:"Pretendard Variable",Pretendard,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:0 16px}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:12px}
+.logo{font-family:"Pretendard Variable",Pretendard,sans-serif;font-weight:600;color:var(--text)}
+.links{display:flex;gap:4px;overflow-x:auto}
+.links a{color:var(--muted);padding:6px 10px;border-radius:6px;font-size:14px;white-space:nowrap}
+.links a:hover{color:var(--text);background:var(--surface);text-decoration:none}
+
+/* sections */
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+.label{font-family:"Pretendard Variable",Pretendard,sans-serif;font-size:22px;font-weight:800;letter-spacing:.02em;color:var(--accent);text-transform:uppercase;margin:0 0 20px;padding-bottom:8px;border-bottom:2px solid var(--accent)}
+h1{font-size:42px;font-weight:800;margin:4px 0 2px;line-height:1.2;letter-spacing:-0.02em}
+h2{font-size:18px;font-weight:700;margin:0}
+.sub{color:var(--muted);margin:0 0 20px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 160px;gap:32px;align-items:center}
+.photo{width:160px;height:206px;border-radius:12px;border:1px solid var(--line);object-fit:cover;display:block}
+.contact{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;margin-top:16px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+.cards.skills{margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card h3{margin:0 0 4px;font-size:16px;font-weight:700}
+.card p{margin:0;color:var(--muted);font-size:14px}
+
+/* projects */
+.proj{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin-bottom:12px}
+.proj summary{list-style:none;cursor:pointer;padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:6px 16px}
+.proj summary::-webkit-details-marker{display:none}
+.proj summary .meta{font-size:13px;color:var(--muted)}
+.proj summary .meta b{color:var(--accent);font-weight:500}
+.proj summary .one{grid-column:1/-1;margin:4px 0 0;font-size:14px}
+.proj summary .chev{color:var(--muted);transition:transform .2s;align-self:start}
+.proj[open] summary .chev{transform:rotate(90deg)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;grid-column:1/-1;margin-top:6px}
+.tag{font-family:"Pretendard Variable",Pretendard,sans-serif;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.body{padding:0 20px 20px;border-top:1px solid var(--line)}
+.body h4{font-size:13px;color:var(--muted);margin:18px 0 6px;font-weight:500}
+.body ul{margin:0;padding-left:18px}
+.body li{margin:2px 0}
+
+/* lists */
+.rows{list-style:none;margin:0;padding:0}
+.rows li{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.rows li:last-child{border-bottom:0}
+.rows .when{font-family:"Pretendard Variable",Pretendard,sans-serif;font-size:13px;color:var(--muted)}
+.rows .what b{font-weight:650}
+.rows .what small{display:block;color:var(--muted);font-size:13px}
+
+.todo{background:var(--todo-bg);color:var(--todo-text);padding:0 4px;border-radius:4px;font-size:.92em}
+footer{padding:32px 0;color:var(--muted);font-size:13px}
+
+@media (max-width:640px){
+  h1{font-size:32px}
+  .hero{grid-template-columns:1fr}
+  .photo{order:-1;width:120px;height:154px}
+  .cards,.cards.skills{grid-template-columns:1fr}
+  .rows li{grid-template-columns:1fr;gap:2px}
+}
+
+/* print: PDF 제출용: 카드 전부 펼치고 메뉴 숨김 */
+@page{size:A4;margin:14mm 12mm}
+@media print{
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{font-size:13px;line-height:1.6}
+  nav,.proj summary .chev{display:none}
+  section{padding:20px 0}
+  h1{font-size:32px}
+  .proj::details-content{content-visibility:visible;display:block}
+  .proj,.card,.rows li{break-inside:avoid}
+  .proj summary{padding:12px 16px;grid-template-columns:1fr}
+  .body{padding:0 16px 12px}
+  .body h4{margin:10px 0 4px}
+  a{color:var(--accent)}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="logo" href="#home">hanwoooo</a>
+  <div class="links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#awards">Awards</a>
+    <a href="#publications">Publications</a>
+    <a href="#activities">Activities</a>
+    <a href="#skills">Skills</a>
+  </div>
+</div></nav>
+
+<main class="wrap">
+
+<!-- HOME / ABOUT -->
+<section id="home">
+  <div class="hero">
+    <div>
+      <h1>한우혁</h1>
+      <p class="sub">Han WooHyeok</p>
+      <p id="about">안정적으로 운영되는 시스템에 관심이 많은 컴퓨터공학 전공생입니다. 기능을 구현하는 데 그치지 않고, 의도대로 동작하는지 검증하고 실제 운영까지 이어가는 과정에서 보람을 느낍니다. CTF 대회 플랫폼 개발과 문제 출제·서버 운영, AI 에이전트의 자원 관리·격리 환경 개선을 통해 시스템을 개발하고 검증·운영하는 경험을 쌓았으며, 지능형 시스템 보안 연구실에서는 공개된 구현도 그대로 신뢰하지 않고 직접 검증해 결함을 찾아냈습니다. 이러한 경험을 바탕으로 신뢰할 수 있는 시스템을 만드는 개발자를 목표로 합니다.</p>
+      <div class="contact">
+        <a href="https://github.com/hanwoooo">github.com/hanwoooo</a>
+        <a href="mailto:hanwoo0919@gmail.com">hanwoo0919@gmail.com</a>
+      </div>
+    </div>
+    <img class="photo" src="profile.jpg" alt="한우혁 증명사진">
+  </div>
+
+  <div class="cards">
+    <div class="card"><h3>System</h3><p>Linux cgroup/namespace 기반 격리 실행 환경 구축, CTF 대회 플랫폼 및 문제 서버 개발/운영</p></div>
+    <div class="card"><h3>Research &amp; Analysis</h3><p>지능형 시스템 보안 연구실 학부연구생, 공개 공격 구현의 결함 검증 및 압축 부채널 공격 성능 평가</p></div>
+    <div class="card"><h3>Service &amp; Solution</h3><p>해커톤 최우수상 수상 서비스 기획/개발, Win32 API 기반 Windows 보안 솔루션 개발</p></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="label">Projects</p>
+
+  <details class="proj">
+    <summary>
+      <h2>CTF 문제 출제·검수 <a href="https://github.com/hanwoooo/ctf-challenges" class="mono" style="font-size:12px">GitHub ↗</a></h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2025 - 2026</b> · 출제진, MJSEC · welcome_mjsec 2025 · MSG CTF 2025 · MJU CTF 2026</div>
+      <p class="one">동아리 주최 CTF 리버싱·MISC 문제 출제 및 AWS 기반 문제 서버 구축·운영.</p>
+      <div class="tags"><span class="tag">C++</span><span class="tag">Python</span><span class="tag">Docker</span><span class="tag">AWS</span></div>
+    </summary>
+    <div class="body">
+      <h4>출제 및 운영</h4>
+      <ul>
+        <li>HID (REV): BadUSB 키 입력 기록 복원, implant C2 인증 재구현으로 이어지는 2단계 문제 설계</li>
+        <li>언인텐 차단 설계: 플래그 서버 단독 보관, sinkhole C2를 통한 동적 분석 우회 차단, 디코이 데이터 삽입</li>
+        <li>SISYPUSH (REV): 게임 바이너리 기반 숨은 조건·검증 루틴 복원 문제 출제</li>
+        <li>Welcom_rev, MSG_BEET_REV_GUYS (REV), Bigstory! (MISC) 출제</li>
+        <li>문제 서버 구축·운영: AWS EC2 기반 Docker 문제 서버 배포(타 출제 문제 포함), 비root 실행·컨테이너 자원 제한, 플래그 런타임 주입</li>
+      </ul>
+      <h4>검증</h4>
+      <ul>
+        <li>레퍼런스 solver 기반 의도 풀이 전 과정 검증</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>MSG CTF 2025 대회 웹 플랫폼 <a href="https://github.com/MJSEC-MJU/MSG_CTF_WEB" class="mono" style="font-size:12px">GitHub ↗</a></h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2025.08 - 2025.11</b> · 개발 운영진 (Frontend · UI/UX &amp; Design), MJSEC</div>
+      <p class="one">명지대학교·건국대학교 글로컬캠퍼스·순천향대학교·상명대학교 천안캠퍼스·중앙대학교 연합 CTF. 자체 개발 대회 플랫폼의 프론트엔드 개발 및 대회 운영.</p>
+      <div class="tags"><span class="tag">React</span><span class="tag">JavaScript</span></div>
+    </summary>
+    <div class="body">
+      <h4>대회 개요</h4>
+      <ul><li>2025.11.09 개최</li></ul>
+      <h4>참여 형태</h4>
+      <ul><li>프론트엔드 (UI/UX) 담당</li></ul>
+      <h4>담당 역할</h4>
+      <ul>
+        <li>대회 타이머 구현: 서버 시간 기준 시작 전·종료 후 문제 접근 차단</li>
+        <li>점수 그래프·스코어보드 UI 개발</li>
+        <li>랭킹·로그인·마이페이지 UI 개발, 아이콘·로고 SVG 전환을 통한 로딩 속도 개선</li>
+      </ul>
+
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>NYPC 2026 중간 평가 분석 자동화</h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2026.07 - 2026.08</b> · 4인 팀 · 넥슨 NYPC 2026 Master Track (본선 8위)</div>
+      <p class="one">턴제 전략 게임 봇 대회. 15분 주기 공식 중간 평가 로그를 수집·분석해 디스코드로 알리는 에이전트 구축.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">C++</span></div>
+    </summary>
+    <div class="body">
+      <h4>담당 역할</h4>
+      <ul>
+        <li>분석 에이전트 구축: 중간 평가 로그 자동 수집·분석, 디스코드 알림까지 단일 흐름으로 자동화</li>
+        <li>로그에서 팀 봇 취약점·상대 팀 전략 특징 추출, 다음 주기 전략 수정·대응 방향 결정 근거로 활용</li>
+        <li>로컬 벤치마크가 아닌 공식 평가 로그 기준 반복 개선 흐름 자동화</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>CTF 풀이 AI 에이전트 운영·개선</h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2026.09 - 2026.10</b> · 5인 팀, 크립토 담당 · Black Hat MEA CTF 2026 본선 대비</div>
+      <p class="one">오픈소스 CTF 풀이 에이전트(sane100400/Machine) 포크 기반, 장시간 무인 실행 시 발생하는 운영 문제 개선.</p>
+      <div class="tags"><span class="tag">Claude Code CLI</span><span class="tag">Bash</span><span class="tag">Python</span><span class="tag">WSL</span></div>
+    </summary>
+    <div class="body">
+      <h4>담당 역할</h4>
+      <ul>
+        <li>자원 관리: cgroup 메모리 제한, 진행 상황 기반 타임아웃 자동 연장</li>
+        <li>실패 반복 방지: 시도 간 기억 파일 유지, 원본 승인 판정 버그 수정</li>
+        <li>격리·도구: mount namespace 샌드박스 구성, Ghidra 연동</li>
+      </ul>
+      <h4>성과</h4>
+      <ul>
+        <li>정답키 보유 벤치마크 전 문제 플래그 일치</li>
+        <li>크립토 공격 방향 분류 Top-1 정확도 90%</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>BadUSB 탐지: 캡스톤 디자인 <a href="https://github.com/BadUSB-Solution/BadUSB-Solution" class="mono" style="font-size:12px">GitHub ↗</a></h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2026.01 - 2026.10</b> · 4인 팀 PM · 캡스톤 디자인 및 후속 논문</div>
+      <p class="one">USB 장치 입력 키의 명령 복원 및 위험도 산정, 위험 장치 차단 Windows 보안 솔루션.</p>
+      <div class="tags"><span class="tag">C++</span><span class="tag">Win32 API</span><span class="tag">SQLite</span><span class="tag">Python</span></div>
+    </summary>
+    <div class="body">
+      <h4>참여 형태</h4><ul><li>4인 팀 PM: 역할 분배·일정 조율, 주간 회의 주도, 보고서 작성 및 최종 발표</li></ul>
+      <h4>담당 역할</h4>
+      <ul>
+        <li>명령어 탐지: PowerShell·CMD 명령 위협 매핑 DB(MatchingDB) 구축, 탐지 알고리즘 구현</li>
+        <li>점수 산출: 명령 실행 의미 기반 위협 점수식 설계, 복합 위험도 산정 모듈 구현</li>
+        <li>장치 인식: HID 장치 스캔, VID/PID 기반 장치 fingerprint 생성</li>
+        <li>장치 통제: 미등록 장치 승인 흐름, 블랙리스트 장치 비활성화, 안티 디버깅 구현</li>
+        <li>진입 화면 UI 수정, 논문(점수 체계·평가 파트) 집필</li>
+      </ul>
+      <h4>성과</h4>
+      <ul>
+        <li>내부 데이터셋 F1 0.99 (문자열 기반 탐지 0.71 - 0.98)</li>
+        <li>튜닝 미사용 외부 공개 페이로드 탐지율 91.7%</li>
+        <li>키워드 없는 LOLBin 명령 재현율 0.93 (문자열 기반 탐지 0.00 - 0.02)</li>
+        <li>캡스톤 디자인 은상 · CISC-W 2026 제1저자</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>DBReach 사이드채널 연구</h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2024.12 - 현재</b> · 학부연구생, 지능형 시스템 보안 연구실</div>
+      <p class="one">데이터베이스 시스템에 대한 압축 부채널 공격 최적화 및 방어기술 개발. 논문 char-by-char 성능평가 파트 담당.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">MariaDB</span></div>
+    </summary>
+    <div class="body">
+      <h4>담당 역할</h4>
+      <ul>
+        <li>논문 char-by-char 성능평가 파트 실험 및 집필: DBREACH·G-DBREACH·제안기법 비교</li>
+        <li>최신 버전(MariaDB 12.2.2 · Ubuntu 24.04) 환경 구축·공격 코드 이식</li>
+        <li>G-DBREACH 이진탐색 구현 결함 발견: 경계값 덮어쓰기, 반복 조기 종료, 측정 오염</li>
+      </ul>
+      <h4>성과</h4>
+      <ul>
+        <li>G-DBREACH 재현 결함 수정 후 원논문 성능 수치 동일 재현, 이를 기준선으로 제안기법의 쿼리 효율 개선을 실험으로 입증</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>alphateam-mcp 성능 평가</h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2025.05 - 2025.08</b> · 화이트햇스쿨 3기 프로젝트, 8인 팀, 성능 평가 담당</div>
+      <p class="one">Kali·SBOM·Perplexity MCP 결합 기반 웹 CTF 의존성 취약점 자동 풀이 플랫폼(Alpha-MCP) 개발.</p>
+      <div class="tags"><span class="tag">MCP</span><span class="tag">Kali Linux</span><span class="tag">trivy</span></div>
+    </summary>
+    <div class="body">
+      <h4>참여 형태</h4>
+      <ul><li>분석팀: 평가 문제 선정, 플랫폼·비교군 테스트 직접 수행 및 결과 정리</li></ul>
+      <h4>평가 설계</h4>
+      <ul>
+        <li>평가 데이터셋 구성: Dreamhack·공개 CTF 웹 문제 중 Node.js 의존성 CVE 문제 중심 선정</li>
+        <li>지표: 사람 개입 없는 플래그 획득 여부, 비교군: Kali MCP 단독·일반 LLM(Human-in-the-loop)</li>
+        <li>실패 문제 중심 재테스트: 프롬프트 수정 후 실패 문제 재분석, 기존 성공 문제 회귀 확인</li>
+        <li>선행 도구 검증: PentestGPT의 쿠키·헤더 정보 직접 확인 불가 한계 확인</li>
+      </ul>
+      <h4>결과</h4>
+      <ul>
+        <li>20문제 중 12문제 플래그 자동 획득, 비교군은 제한 시간(30분) 내 정찰 반복으로 풀이 실패</li>
+        <li>실패 원인 분석: 다단계 체이닝 문제 취약, 최적 공격 경로 선택 실패·비표준 플래그 형식 할루시네이션 등 프롬프트 개선 근거 제공</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>Deep Think: AI 뉴스 비판적 읽기 서비스 <a href="https://github.com/deep-think-prj" class="mono" style="font-size:12px">GitHub ↗</a></h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2025.05</b> · 4인 팀 PM (기획·구조 설계·디자인) · Asia Impact Hackathon 2025</div>
+      <p class="one">기사 문장의 명확/모호 분류 및 모호 문장에 대한 대안 해석·외부 근거 제시 AI 뉴스 읽기 서비스.</p>
+      <div class="tags"><span class="tag">기획</span><span class="tag">Figma</span><span class="tag">시스템 구조 설계</span><span class="tag">LLM 서비스</span></div>
+    </summary>
+    <div class="body">
+      <h4>담당 역할</h4>
+      <ul>
+        <li>서비스 기획: 문장 분류·요약·근거 제시 흐름 설계</li>
+        <li>구조 설계: React 웹 · Django API(GPT·Perplexity) · Chrome 확장</li>
+        <li>UI/UX 디자인 (Figma)</li>
+      </ul>
+      <h4>링크</h4>
+      <ul>
+        <li><a href="https://www.sounmanhong.com/initiatives/asia-impact-hackathon-2025/deep-think">Project Page ↗</a> · <a href="https://youtu.be/JX_y7-XHbag">Demo Video ↗</a></li>
+      </ul>
+      <h4>성과</h4><ul><li>Asia Impact Hackathon 2025 최우수상 (KAPS Award): 한국정책학회 · 연세대학교</li></ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>Colloportus: 선박 위성통신 보안 서비스 <a href="https://github.com/colloportus-project/Server" class="mono" style="font-size:12px">GitHub ↗</a></h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2024.09.10 - 09.12</b> · 4인 팀, 백엔드 담당 · 2024 사이버시큐리티 해커톤</div>
+      <p class="one">선박 VSAT 네트워크 트래픽·주파수 AI 분석 기반 이상 트래픽 및 전파 방해(Jamming) 탐지·대시보드 서비스.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">Django</span><span class="tag">MongoDB</span></div>
+    </summary>
+    <div class="body">
+      <h4>담당 역할</h4>
+      <ul>
+        <li>Django API 구성: 트래픽·Jamming 탐지 결과, 경고, 대응 처리</li>
+        <li>AI 탐지 결과 정상/비정상 분류 저장(MongoDB) 및 대시보드 연동</li>
+        <li>비정상 IP 허용·차단 처리 흐름 구현</li>
+      </ul>
+      <h4>성과</h4><ul><li>사이버시큐리티 해커톤 지정 부문 최우수상 (과학기술정보통신부 외)</li></ul>
+    </div>
+  </details>
+
+  <details class="proj">
+    <summary>
+      <h2>승철도: 지하철 경로 안내 앱 <a href="https://github.com/hanwoooo/SeungcheolDo" class="mono" style="font-size:12px">GitHub ↗</a></h2>
+      <span class="chev">›</span>
+      <div class="meta"><b>2024.09 - 2024.12</b> · 4인 팀 PM · 명지대학교 2-2 팀 프로젝트</div>
+      <p class="one">최단 시간·최단 거리·최소 비용 경로 안내 지하철 애플리케이션 및 센서 기반 역 내부 길찾기 서비스.</p>
+      <div class="tags"><span class="tag">MySQL</span><span class="tag">React Native</span><span class="tag">TypeScript</span><span class="tag">Figma</span></div>
+    </summary>
+    <div class="body">
+      <h4>참여 형태</h4><ul><li>4인 팀 PM: 역할 분배·일정 조율, 최종 발표 및 시연</li></ul>
+      <h4>담당 역할</h4>
+      <ul>
+        <li>서비스 구조 기획</li>
+        <li>역 내부 길찾기 구현: 가속도·자이로 센서 기반 걸음 감지, 칼만 필터 보정, 역 지도 위 이동 경로 표시</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <p class="label">Awards</p>
+  <ul class="rows">
+    <li><span class="when">2026.10.05</span><span class="what"><b>Black Hat MEA CTF 2026 본선 진출</b><small>팀 Good luck have fun</small></span></li>
+    <li><span class="when">2026.08.29</span><span class="what"><b>NYPC 2026 Master Track Bronze (넥슨재단 이사장상)</b><small>넥슨 · NYPC</small></span></li>
+    <li><span class="when">2026.06.08</span><span class="what"><b>캡스톤 디자인 은상</b><small>명지대학교</small></span></li>
+    <li><span class="when">2025.05.30</span><span class="what"><b>MJSEC BOJ Contest 2위</b><small>MJSEC</small></span></li>
+    <li><span class="when">2025.05.09</span><span class="what"><b>Asia Impact Hackathon 2025 최우수상 (KAPS Award)</b><small>한국정책학회 · 연세대학교</small></span></li>
+    <li><span class="when">2025.04.25</span><span class="what"><b>화이트햇스쿨 3기 반대항전 우승</b><small>KITRI</small></span></li>
+    <li><span class="when">2024.09.12</span><span class="what"><b>사이버시큐리티 해커톤 지정 부문 최우수상</b><small>과학기술정보통신부 외</small></span></li>
+  </ul>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <p class="label">Publications</p>
+  <ul class="rows">
+    <li><span class="when">2026.10.29</span><span class="what"><b>HID 위장 장치의 키 입력 복원 및 실행 의미 분석을 통한 BadUSB 탐지 기법</b> <a href="papers/cisc-w-2026-badusb.pdf" class="mono" style="font-size:12px">PDF ↗</a><small>한국정보보호학회 CISC-W 2026 논문집 Vol.36 No.2 pp.733-736 · 구두발표 · 제1저자<br><b>한우혁</b>, 곽나영, 정지윤, 정유찬, 현상원</small></span></li>
+  </ul>
+</section>
+
+<!-- ACTIVITIES -->
+<section id="activities">
+  <p class="label">Activities &amp; Education</p>
+  <ul class="rows">
+    <li><span class="when">2021.02 - 2027.02</span><span class="what"><b>명지대학교 컴퓨터공학 학사</b><small>졸업 예정 · 학점 4.11 / 4.5</small></span></li>
+    <li><span class="when">2025.11 - 2026.05</span><span class="what"><b>INCOGNITO 2026 운영진</b><small>대학생 정보보호 컨퍼런스 · 프로젝트 운영</small></span></li>
+    <li><span class="when">2025.07 - 2025.08</span><span class="what"><b>사이버안보 아카데미</b><small>국가정보원</small></span></li>
+    <li><span class="when">2025.03 - 2025.09</span><span class="what"><b>화이트햇스쿨 3기</b><small>한국정보기술연구원(KITRI) · 프로젝트 alphateam-mcp</small></span></li>
+    <li><span class="when">2024.12 - 현재</span><span class="what"><b>지능형 시스템 보안 연구실 학부연구생</b><small>명지대학교 · 데이터베이스 압축 부채널 공격 최적화 및 방어 기술 연구</small></span></li>
+    <li><span class="when">2024.09 - 현재</span><span class="what"><b>MJSEC</b><small>명지대학교 정보보안 동아리 · 학습부장 (2025.09 - 2026.06) · 웹해킹 멘토 · 리버싱 멘토 · MSG CTF 개발 운영진·출제</small></span></li>
+  </ul>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="label">Skills</p>
+  <div class="cards skills">
+    <div class="card"><h3>Language</h3><div class="tags"><span class="tag">C++</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">Java</span></div></div>
+    <div class="card"><h3>Frontend &amp; App</h3><div class="tags"><span class="tag">React</span><span class="tag">React Native</span><span class="tag">Figma</span></div></div>
+    <div class="card"><h3>Backend &amp; Data</h3><div class="tags"><span class="tag">Django</span><span class="tag">MariaDB</span><span class="tag">MongoDB</span><span class="tag">SQLite</span></div></div>
+    <div class="card"><h3>System</h3><div class="tags"><span class="tag">Linux</span><span class="tag">WSL</span><span class="tag">Bash</span></div></div>
+    <div class="card"><h3>Infra &amp; Tools</h3><div class="tags"><span class="tag">AWS EC2</span><span class="tag">Docker</span><span class="tag">Git</span><span class="tag">GitHub</span></div></div>
+    <div class="card"><h3>Security</h3><div class="tags"><span class="tag">IDA</span><span class="tag">Ghidra</span><span class="tag">x64dbg</span><span class="tag">Burp Suite</span></div></div>
+  </div>
+</section>
+
+<section id="certifications">
+  <p class="label">Certifications</p>
+  <ul class="rows">
+    <li><span class="when">2025.06</span><span class="what"><b>SQLD</b><small>한국데이터산업진흥원</small></span></li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="wrap">© 2026 한우혁</footer>
+<script>
+addEventListener('beforeprint',()=>document.querySelectorAll('details.proj').forEach(d=>d.open=true));
+</script>
+</body>
+</html>
